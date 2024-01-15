@@ -13,5 +13,6 @@ This is a feature branch repo for [pret's](https://pret.github.io/) pokeemerald 
     2. In `map_name_popup.c`, add the theme to the `MapPopUp_Themes` enum.
     3. Next, add your images and palettes with their file path following the example of the black theme right above `sRegionMapSectionId_To_PopUpThemeIdMapping`.
     4. Finally, add your theme to the `switch` statement in `LoadMapNamePopUpWindowBgs(void)`.
+    5. Now just assign your theme to any map section you want it to be used for.
 
 ![bsbob_map_popup.gif](bsbob_map_popup.gif)
