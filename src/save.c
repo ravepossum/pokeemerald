@@ -96,6 +96,11 @@ u16 gSaveAttemptStatus;
 EWRAM_DATA struct SaveSector gSaveDataBuffer = {0}; // Buffer used for reading/writing sectors
 EWRAM_DATA static u8 sUnusedVar = 0;
 
+static void UNUSED UseUnusedVar(void)
+{
+    sUnusedVar++;
+}
+
 void ClearSaveData(void)
 {
     u16 i;

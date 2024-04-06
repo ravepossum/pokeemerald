@@ -1122,10 +1122,10 @@ static void InitMapBasedOnPlayerLocation(void)
 
 static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
 {
-    u16 y;
-    u16 x;
-    u8 mapGroup;
-    u8 mapNum;
+    s16 y;
+    s16 x;
+    s8 mapGroup;
+    s8 mapNum;
     u16 dimensionScale;
     s16 xOnMap;
     s16 yOnMap;

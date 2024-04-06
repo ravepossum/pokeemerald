@@ -134,8 +134,10 @@ static const char str_checkMbootLL[] = "RFU-MBOOT";
 u16 rfu_initializeAPI(u32 *APIBuffer, u16 buffByteSize, IntrFunc *sioIntrTable_p, bool8 copyInterruptToRam)
 {
     u16 i;
+#if LIBRFU_VERSION < 1026
     u16 *dst;
     const u16 *src;
+#endif
     u16 buffByteSizeMax;
 
     // is in EWRAM?
@@ -591,10 +593,12 @@ static void rfu_CB_pollAndEndSearchChild(u8 reqCommand, u16 reqResult)
 
 static void rfu_STC_readChildList(void)
 {
-    u32 stwiParam;
     u8 numSlots = gRfuFixed->STWIBuffer->rxPacketAlloc.rfuPacket8.data[1];
     u8 *data_p;
+#if LIBRFU_VERSION < 1026
+    u32 stwiParam;
     u8 i;
+#endif
     u8 bm_slot_id;
 #if LIBRFU_VERSION < 1026
     u8 true_slots[RFU_CHILD_MAX];
@@ -1411,7 +1415,7 @@ static u16 rfu_STC_setSendData_org(u8 ni_or_uni, u8 bmSendSlot, u8 subFrameSize,
     struct RfuSlotStatusUNI *slotStatus_UNI;
     struct RfuSlotStatusNI *slotStatus_NI;
 
-    if (gRfuLinkStatus->parentChild == MODE_NEUTRAL)
+    if (gRfuLinkStatus->parentChild > MODE_PARENT)
         return ERR_MODE_NOT_CONNECTED;
     if (!(bmSendSlot & 0xF))
         return ERR_SLOT_NO;

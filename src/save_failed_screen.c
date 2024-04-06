@@ -45,6 +45,12 @@ static EWRAM_DATA u8 sUnused1[12] = {0};
 static EWRAM_DATA u8 sWindowIds[2] = {0};
 static EWRAM_DATA u8 sUnused2[4] = {0};
 
+static void UNUSED UseUnusedEWRAM(void)
+{
+    sUnused1[0]++;
+    sUnused2[0]++;
+}
+
 static const struct OamData sClockOamData =
 {
     .y = DISPLAY_HEIGHT,

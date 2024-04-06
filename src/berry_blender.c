@@ -2057,8 +2057,8 @@ static void UpdateSpeedFromHit(u16 cmd)
         else
         {
             sBerryBlender->speed += (128 / sNumPlayersToSpeedDivisor[sBerryBlender->numPlayers]);
-            ShakeBgCoordForHit(&sBerryBlender->bg_X, (sBerryBlender->speed / 100) - 10);
-            ShakeBgCoordForHit(&sBerryBlender->bg_Y, (sBerryBlender->speed / 100) - 10);
+            ShakeBgCoordForHit((s16*)&sBerryBlender->bg_X, (sBerryBlender->speed / 100) - 10);
+            ShakeBgCoordForHit((s16*)&sBerryBlender->bg_Y, (sBerryBlender->speed / 100) - 10);
         }
         break;
     case LINKCMD_BLENDER_SCORE_GOOD:
@@ -3400,8 +3400,8 @@ static void RestoreBgCoord(s16 *coord)
 // For "unshaking" the screen after ShakeBgCoordForHit is called
 static void RestoreBgCoords(void)
 {
-    RestoreBgCoord(&sBerryBlender->bg_X);
-    RestoreBgCoord(&sBerryBlender->bg_Y);
+    RestoreBgCoord((s16*)&sBerryBlender->bg_X);
+    RestoreBgCoord((s16*)&sBerryBlender->bg_Y);
 }
 
 static void BlenderLandShakeBgCoord(s16 *coord, u16 timer)
@@ -3436,8 +3436,8 @@ static bool8 UpdateBlenderLandScreenShake(void)
     }
 
     sBerryBlender->framesToWait++;
-    BlenderLandShakeBgCoord(&sBerryBlender->bg_X, sBerryBlender->framesToWait);
-    BlenderLandShakeBgCoord(&sBerryBlender->bg_Y, sBerryBlender->framesToWait);
+    BlenderLandShakeBgCoord((s16*)&sBerryBlender->bg_X, sBerryBlender->framesToWait);
+    BlenderLandShakeBgCoord((s16*)&sBerryBlender->bg_Y, sBerryBlender->framesToWait);
 
     if (sBerryBlender->framesToWait == 20)
     {

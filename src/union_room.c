@@ -283,6 +283,11 @@ static void ItemPrintFunc_EmptyList(u8, u32, u8);
 
 #include "data/union_room.h"
 
+static void UNUSED UseUnused(void)
+{
+    sUnused++;
+}
+
 static void PrintNumPlayersWaitingForMsg(u8 windowId, u8 capacityCode, u8 stringId)
 {
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
@@ -4066,7 +4071,7 @@ static s32 UnionRoomGetPlayerInteractionResponse(struct RfuPlayerList *list, boo
         CopyAndTranslatePlayerName(gStringVar1, player);
         if (overrideGender)
         {
-            playerGender = (player->rfu.data.compatibility.playerTrainerId[overrideGender + 1] >> 3) & 1;
+            playerGender = (player->rfu.data.compatibility.playerTrainerId[overrideGender - 1] >> 3) & 1;
         }
         switch (player->rfu.data.activity & 0x3F)
         {
