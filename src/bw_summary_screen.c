@@ -307,7 +307,6 @@ static void Task_PrintContestMoves(u8);
 static void PrintContestMoveDescription(u8);
 static void PrintMoveDetails(u16);
 static void PrintNewMoveDetailsOrCancelText(void);
-static void AddAndFillMoveNamesWindow(void);
 static void SwapMovesNamesPP(u8, u8);
 static void PrintHMMovesCantBeForgotten(void);
 static void ResetSpriteIds(void);
@@ -379,8 +378,8 @@ static const u8 sText_Info[]                                = _("Info");
 static const u8 sText_ViewIVs[]                             = _("View IV");
 static const u8 sText_ViewEVs[]                             = _("View EV");
 static const u8 sText_ViewStats[]                           = _("View Stats");
-static const u8 sText_ViewIVs_Graded[]                      = _("Innate");
-static const u8 sText_ViewEVs_Graded[]                      = _("Effort");
+static const u8 sText_ViewIVs_Graded[]                      = _("See Innate");
+static const u8 sText_ViewEVs_Graded[]                      = _("See Effort");
 static const u8 sText_NextLv[]                              = _("Next Lv.");
 static const u8 sText_RentalPkmn[]                          = _("Rental Pokémon");
 static const u8 sText_None[]                                = _("None");
@@ -2417,10 +2416,7 @@ static void TryDrawHPBar(void)
 
 static void SwitchToMoveSelection(u8 taskId)
 {
-    u16 move;
-    s16 *data = gTasks[taskId].data;
     sMonSummaryScreen->firstMoveIndex = 0;
-    move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
 
     if (!sMonSummaryScreen->lockMovesFlag)
     {
@@ -3015,7 +3011,6 @@ static void Task_HideContestMovesTilemap(u8 taskId)
 
 static void HandleAppealJamTilemap(u16 move)
 {
-    struct PokeSummary *summary = &sMonSummaryScreen->summary;
     u16 *dst1, *dst2;
     u8 i;
     u8 appeal = 0;
@@ -3076,7 +3071,6 @@ static void HandleAppealJamTilemap(u16 move)
 static void DrawHPBar(struct Pokemon *unused)
 {
     s64 numHPBarTicks;
-    struct PokeSummary *summary = &sMonSummaryScreen->summary;
     u16 *dst1, *dst2;
     u8 i;
 
@@ -3237,10 +3231,8 @@ static void PrintMonPortraitInfo(void)
 
 static void PrintNotEggInfo(void)
 {
-    u8 strArray[16];
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u16 dexNum = SpeciesToPokedexNum(summary->species);
 
     // print nickname
     GetMonNickname(mon, gStringVar1);
@@ -3296,7 +3288,6 @@ static void PrintPageNamesAndStats(void)
 {
     int stringXPos;
     int iconXPos;
-    int statsXPos;
     int skillsLabelWidth = 78;
 
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, sText_PkmnInfo, 2, 1, 0, 1);
@@ -3614,7 +3605,7 @@ static void HandleMonShinyIcon(bool8 isShiny)
 
 static void PrintMonOTName(void)
 {
-    int x, windowId;
+    int windowId;
     if (InBattleFactory() != TRUE && InSlateportBattleTent() != TRUE)
     {
         windowId = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ORIGINAL_TRAINER);
@@ -3911,7 +3902,7 @@ static void PrintHeldItemName(void)
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_INFO_ID_ITEM), text, 12, 12, 0, 0);
 }
 
-static void PrintRibbonCount(void)
+static void UNUSED PrintRibbonCount(void)
 {
     const u8 *text;
     int x;
@@ -4396,13 +4387,6 @@ static void PrintNewMoveDetailsOrCancelText(void)
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sMovesPPLayout);
         PrintTextOnWindow(windowId1, gStringVar4, 26, 128, 0, 12);
     }
-}
-
-static void AddAndFillMoveNamesWindow(void)
-{
-    u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_NAMES_PP);
-    FillWindowPixelRect(windowId, PIXEL_FILL(0), 0, 66, 72, 16);
-    CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 
 static void ClearCancelText(void)
