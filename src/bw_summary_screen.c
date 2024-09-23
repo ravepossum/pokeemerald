@@ -1352,7 +1352,7 @@ static const struct OamData sOamData_StatusCondition =
     .matrixNum = 0,
     .size = SPRITE_SIZE(32x8),
     .tileNum = 0,
-    .priority = 1,
+    .priority = 2,
     .paletteNum = 0,
     .affineParam = 0,
 };
@@ -4931,7 +4931,7 @@ static void CreateCaughtBallSprite(struct Pokemon *mon)
     u8 ball = ItemIdToBallId(GetMonData(mon, MON_DATA_POKEBALL));
 
     LoadBallGfx(ball);
-    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 233, 38, 0);
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 233, 38, 6);
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].callback = SpriteCallbackDummy;
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 1;
 }
@@ -4942,7 +4942,7 @@ static void CreateSetStatusSprite(void)
     u8 statusAnim;
 
     if (*spriteId == SPRITE_NONE)
-        *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 213, 38, 0);
+        *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 213, 38, 6);
 
     statusAnim = GetMonAilment(&sMonSummaryScreen->currentMon);
     if (statusAnim != 0)
