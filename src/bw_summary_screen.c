@@ -2232,6 +2232,8 @@ static void Task_HandleInput(u8 taskId)
 
 #undef tSkillsState
 
+#define tSummaryState data[0]
+
 static void ChangeSummaryPokemon(u8 taskId, s8 delta)
 {
     s8 monId;
@@ -2275,7 +2277,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
             sMonSummaryScreen->curMonIndex = monId;
             sMonSummaryScreen->monAnimTimer = 0;
             sMonSummaryScreen->monAnimPlayed = FALSE;
-            gTasks[taskId].data[0] = 0;
+            gTasks[taskId].tSummaryState = 0;
             gTasks[taskId].func = Task_ChangeSummaryMon;
         }
     }
@@ -2285,7 +2287,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (data[0])
+    switch (tSummaryState)
     {
     case 0:
         StopCryAndClearCrySongs();
@@ -2376,12 +2378,12 @@ static void Task_ChangeSummaryMon(u8 taskId)
     default:
         if (!MenuHelpers_ShouldWaitForLinkRecv())
         {
-            data[0] = 0;
+            data[0] = 0; // tSkillsState
             gTasks[taskId].func = Task_HandleInput;
         }
         return;
     }
-    data[0]++;
+    tSummaryState++;
 }
 
 static s8 AdvanceMonIndex(s8 delta)
@@ -2443,6 +2445,9 @@ static bool8 IsValidToViewInMulti(struct Pokemon *mon)
         return FALSE;
 }
 
+#define tScrollState data[0]
+#define tMosaicStrength data[1]
+
 static void ChangePage(u8 taskId, s8 delta)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
@@ -2458,14 +2463,11 @@ static void ChangePage(u8 taskId, s8 delta)
     PlaySE(SE_SELECT);
     ClearPageWindowTilemaps(sMonSummaryScreen->currPageIndex);
     sMonSummaryScreen->currPageIndex += delta;
-    data[0] = 0;
+    tScrollState = 0;
     SetTaskFuncWithFollowupFunc(taskId, PssScroll, gTasks[taskId].func);
     CreateTextPrinterTask(sMonSummaryScreen->currPageIndex);
     HidePageSpecificSprites();
 }
-
-#define tScrollState data[0]
-#define tMosaicStrength data[1]
 
 static void PssScroll(u8 taskId)
 {
